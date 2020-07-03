@@ -1,0 +1,16 @@
+#pendel {
+    width: 20px;
+    transform-origin: 50% 100%;
+    animation: metronome-spin infinite linear;
+    animation-duration: 1000ms;
+    animation-direction: alternate;
+}
+
+@keyframes metronome-spin {
+    from {
+        transform: rotate(30deg);
+    }
+    to {
+        transform: rotate(-30deg);
+    }
+}
