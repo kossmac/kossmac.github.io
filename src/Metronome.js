@@ -1,26 +1,53 @@
-import React from 'react';
-import metronome_logo from './metronome.svg';
+import React, { useState } from 'react';
+
 import './Metronome.css';
+import metronome from './metronome.svg';
+import click from './assets/click.mp3';
 
 
 function Metronome() {
+    const [play, setPlay] = useState(false);
+    const [bpm, setBPM] = useState(60);
+    const clickSound = new Audio(click);
+    const [timer, setTimerID] = useState(null);
+
+    function playSound() {
+        clickSound.play();
+    }
+
+    function handlePlayButton() {
+        if (play) {
+            clearInterval(timer);
+        } else {
+            setTimerID(setInterval(playSound, 60000 / bpm));
+            playSound();
+        }
+        setPlay(!play);
+    }
+
     function BPMtoMS(bpm) {
         return 60000 / bpm;
     }
 
-    function handleAnimationIteration(e) {
-    }
-
     function handleBPMChange(e) {
-        document.getElementById('pendel').style.animationDuration = BPMtoMS(e.target.value) + 'ms';
+        const ms = BPMtoMS(e.target.value);
+
+        if (play) {
+            clearInterval(timer);
+            setTimerID(setInterval(playSound, 60000 / bpm));
+            setBPM(e.target.value);
+        }
+        document.getElementsByClassName('pendel')[0].style.animationDuration = ms + 'ms';
+        setBPM(e.target.value);
     }
 
     return (
         <div className="Metronome">
             <p>
-                <img src={metronome_logo} alt="metronome" id="pendel" onAnimationIteration={handleAnimationIteration}/>
+                <img src={metronome} alt="metronome" className={play ? 'pendel animation' : 'pendel'}/>
             </p>
-            <input type="number" id="quantity" step="5" defaultValue={"60"} min="5" max="520" onChange={handleBPMChange}/>
+            <input type="number" id="quantity" step="5" value={bpm} min="5" max="520" onChange={handleBPMChange}/>
+            <button onClick={handlePlayButton}>{play ? 'Stop' : 'Start'}</button>
         </div>
     )
 }
