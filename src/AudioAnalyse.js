@@ -5,29 +5,35 @@ class AudioAnalyse extends Component {
   constructor(props) {
     super(props);
     this.state = { audioData: new Uint8Array(0) };
-    this.tick = this.tick.bind(this);
+    this.animate = this.animate.bind(this);
   }
 
   componentDidMount() {
-    this.audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
+    // wir benötigen immer einen audiocontext
+    this.audioContext = new window.AudioContext();
+    // mit dem audiocontext erzeugnén wir einen audio analyser
     this.analyser = this.audioContext.createAnalyser();
-    this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-    this.source = this.audioContext.createMediaStreamSource(this.props.audio);
-    this.source.connect(this.analyser);
-    this.rafId = requestAnimationFrame(this.tick);
+    // datenstruktur zum erfassen der audiodaten
+    this.audioArray = new Uint8Array(this.analyser.frequencyBinCount);
+    // erstellt MediaStreamSource Objekt anhand des zuvor übergebenen Mikrofons
+    this.input = this.audioContext.createMediaStreamSource(this.props.audio);
+    // Inputsignal verbinden mit dem AnalyserNode
+    this.input.connect(this.analyser);
+    // zeichnung vom browser anfordern
+    this.aniID = requestAnimationFrame(this.animate);
   }
 
-  tick() {
-    this.analyser.getByteTimeDomainData(this.dataArray);
-    this.setState({ audioData: this.dataArray });
-    this.rafId = requestAnimationFrame(this.tick);
+  animate() {
+    // kopieren der aktuellen waveform in die zuvor erzeugte datenstruktur
+    this.analyser.getByteTimeDomainData(this.audioArray);
+    this.setState({ audioData: this.audioArray });
+    this.aniID = requestAnimationFrame(this.animate);
   }
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.rafId);
+    cancelAnimationFrame(this.aniID);
     this.analyser.disconnect();
-    this.source.disconnect();
+    this.input.disconnect();
   }
 
   render() {

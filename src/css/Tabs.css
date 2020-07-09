@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -18,7 +17,7 @@ body {
   justify-content: center;
 }
 
-.tabitem {
+.tab {
   border: 2px solid #fff;
   cursor: pointer;
   width: 300px;
@@ -33,17 +32,21 @@ body {
   border-radius: 10px;
 }
 
-.tabitem--inactive {
+.tab:hover {
+  background-color: #4a3f6e;
+}
+
+.tab--inactive {
   opacity: 0.3;
   filter: grayscale(100%);
 }
 
-.tabitem__icon {
+.tab__icon {
   color: rgba(255, 255, 255, 0.9);
   font-size: 22px;
 }
 
-.tabitem__title {
+.tab__title {
   color: rgba(255, 255, 255, 0.9);
   font-size: 16px;
   margin: 10px 0;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import "./Guitar.css";
+import "./css/Guitar.css";
 
 import String from "./String";
 import context from "./AudioContext";
@@ -11,7 +11,7 @@ function Guitar() {
     function playSound(freq) {
         oscillator.frequency.value = freq;
         oscillator.start();
-        oscillator.stop(audioContext.currentTime + 1);
+        oscillator.stop(audioContext.currentTime + 1.5);
 
         const newOscillator = audioContext.createOscillator();
         oscillator.type = 'sawtooth';
@@ -57,8 +57,8 @@ function Guitar() {
 
     return (
         <div className="guitar">
-            {strings.map(function ({ frequency }, index) {
-                return <String frequency={frequency} onHover={playSound} key={index} />
+            {strings.map(function ({ name, frequency }, index) {
+                return <String name={name} frequency={frequency} onHover={playSound} key={index} />
             })}
         </div>
     )
