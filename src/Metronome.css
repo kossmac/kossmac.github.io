@@ -15,3 +15,13 @@
     transform: rotate(-30deg);
   }
 }
+
+.metronome label {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.metronome button {
+  padding: 5px;
+  margin: 20px;
+}

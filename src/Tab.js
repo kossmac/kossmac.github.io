@@ -1,43 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import './Tab.css';
 
-class Tab extends Component {
-  static propTypes = {
-    activeTab: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-  };
-
-  onClick = () => {
-    const { label, onClick } = this.props;
-    onClick(label);
-  }
-
-  render() {
-    const { 
-      onClick,
-      props: {
-        activeTab,
-        label,
-      },
-    } = this;
-
-    let className = 'tab-list-item';
-
-    if (activeTab === label) {
-      className += ' tab-list-active';
-    }
-
+const Tab = ({
+    icon = '',
+    title = '',
+    onItemClicked = () => console.error('You passed no action to the component'),
+    isActive = false,
+  }) => {
     return (
-      <li 
-        className={className}
-        onClick={onClick}
-      >
-        {label}
-      </li>
-    );
-  }
-}
-
+      <div className={isActive ? 'tabitem' : 'tabitem tabitem--inactive'} onClick={onItemClicked}>
+        <i className={icon}></i>
+        <p className="tabitem__title">{title}</p>
+      </div>
+    )
+  };
 
 export default Tab;

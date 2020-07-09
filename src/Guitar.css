@@ -1,0 +1,17 @@
+.guitar {
+  margin-top: 5px;
+  height: 250px;
+  width: 250px;
+  background-color: rgb(66, 35, 0);
+  border-radius: 50%;
+  display: inline-block;
+  border: 8px solid #ffc023;
+}
+
+.string {
+  background-color: rgb(194, 129, 32);
+  height: 8px;
+  margin-top: 30px;
+  width: 300%;
+  margin-left: -250px;
+}

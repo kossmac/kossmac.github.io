@@ -1,61 +1,56 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import React, { useState } from 'react';
 import Tab from './Tab';
+import './Tabs.css';
+import Metronome from './Metronome';
+import Tuner from './Tuner';
+import Visualization from './Visualization';
 
-class Tabs extends Component {
-  static propTypes = {
-    children: PropTypes.instanceOf(Array).isRequired,
-  }
 
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      activeTab: this.props.children[0].props.label,
-    };
-  }
+/**
+ * Wraps the Tab component and keeps track of the state 
+ */
+function Tabs() {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  onClickTabItem = (tab) => {
-    this.setState({ activeTab: tab });
-  }
+  const tabItems = [
+    {
+      title: 'Metronome',
+      icon: 'tabitem__icon fas metronome',
+      content: <Metronome />,
+    },
+    {
+      title: 'Tuner',
+      icon: 'tabitem__icon fas fa-users',
+      content: <Tuner />,
+    },
+    {
+      title: 'Visualization',
+      icon: 'tabitem__icon fas fa-network-wired',
+      content: <Visualization />,
+    },
+  ];
 
-  render() {
-    const {
-      onClickTabItem,
-      props: {
-        children,
-      },
-      state: {
-        activeTab,
-      }
-    } = this;
 
-    return (
+  return (
+    <div className="wrapper">
       <div className="tabs">
-        <ol className="tab-list">
-          {children.map((child) => {
-            const { label } = child.props;
-
-            return (
-              <Tab
-                activeTab={activeTab}
-                key={label}
-                label={label}
-                onClick={onClickTabItem}
-              />
-            );
-          })}
-        </ol>
-        <div className="tab-content">
-          {children.map((child) => {
-            if (child.props.label !== activeTab) return undefined;
-            return child.props.children;
-          })}
-        </div>
+        {tabItems.map(({ icon, title }, index) =>
+          <Tab
+            key={title}
+            icon={icon}
+            title={title}
+            onItemClicked={() => setActiveTabIndex(index)}
+            isActive={activeTabIndex === index}
+          />
+        )}
       </div>
-    );
-  }
+      <div className="content">
+        {tabItems.map(({ content }, index) => {
+          return activeTabIndex === index ? content : ''
+        })}
+      </div>
+    </div>
+  )
 }
-
 export default Tabs;

@@ -42,12 +42,13 @@ function Metronome() {
     }
 
     return (
-        <div className="Metronome">
+        <div className="metronome">
             <p>
-                <img src={metronome} alt="metronome" className={play ? 'pendel animation' : 'pendel'}/>
+                <img src={metronome} alt="metronome" className={play ? 'pendel animation' : 'pendel'} />
             </p>
-            <input type="number" id="quantity" step="5" value={bpm} min="5" max="520" onChange={handleBPMChange}/>
-            <button onClick={handlePlayButton}>{play ? 'Stop' : 'Start'}</button>
+                <label>Enter BPM here: </label>
+                <input type="number" id="quantity" step="5" value={bpm} min="5" max="520" onChange={handleBPMChange} />
+                <button onClick={handlePlayButton}>{play ? 'Stop' : 'Start'}</button>
         </div>
     )
 }
